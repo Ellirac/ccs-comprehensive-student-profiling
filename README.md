@@ -1,20 +1,79 @@
-<<<<<<< HEAD
-# React + Vite
+# CCS Comprehensive Profiling System — Firebase Edition
+**Pamantasan ng Cabuyao · College of Computing Studies**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Full React SPA powered entirely by Firebase — no backend server required.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Stack
+| Layer | Technology |
+|---|---|
+| Frontend | React 18 + React Router v6 |
+| Auth | Firebase Authentication (Email/Password + Custom Claims) |
+| Database | Cloud Firestore (NoSQL) |
+| File Storage | Firebase Storage |
+| Hosting | Firebase Hosting (free CDN) |
 
-## React Compiler
+---
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Quick Start
 
-## Expanding the ESLint configuration
+```bash
+# 1. Install dependencies
+npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# student-information-system
->>>>>>> 890191ea01aab518f85a1ed750dcdc6ba0219d0d
+# 2. Add your Firebase config to src/config/firebase.js
+
+# 3. Seed Firestore with all faculty + sample data
+node src/config/seedFirestore.js
+
+# 4. Deploy security rules
+firebase deploy --only firestore:rules,firestore:indexes,storage
+
+# 5. Run locally
+npm start
+
+# 6. Deploy to Firebase Hosting
+npm run deploy
+```
+
+See **SETUP_GUIDE.md** for full step-by-step instructions.
+
+---
+
+## Demo Login
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | gbmontecillo@pnc.edu.ph | Admin@2024 |
+| Faculty | eamagaling@pnc.edu.ph | Faculty@2024 |
+| Student | 2021-00001@pnc.edu.ph | Student@2024 |
+
+---
+
+## File Structure
+```
+ccs-firebase/
+├── public/index.html
+├── src/
+│   ├── App.jsx                         ← Root router
+│   ├── index.js / index.css
+│   ├── config/
+│   │   ├── firebase.js                 ← Firebase SDK init ⚠️ Add your config here
+│   │   └── seedFirestore.js            ← Run once to populate Firestore
+│   ├── context/AuthContext.jsx         ← Firebase Auth state
+│   ├── hooks/useFirestore.js           ← Data-fetching hook
+│   ├── services/firebase.services.js  ← All Firestore + Storage operations
+│   ├── components/
+│   │   ├── common/index.jsx            ← Shared UI components
+│   │   └── layout/Sidebar + AppLayout
+│   └── pages/
+│       ├── auth/Login.jsx
+│       ├── AllPages.jsx                ← All Admin/Faculty/Student pages
+│       └── shared/Schedule.jsx
+├── firestore.rules                     ← Security rules
+├── firestore.indexes.json              ← Composite indexes
+├── storage.rules                       ← Storage security rules
+├── firebase.json                       ← Hosting + Firestore + Storage config
+└── SETUP_GUIDE.md
+```
